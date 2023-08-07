@@ -6,6 +6,34 @@ final class Constant
 {
     /*
     |--------------------------------------------------------------------------
+    | Miscellaneous
+    |--------------------------------------------------------------------------
+    */
+
+    const ENABLED = '1';
+    const ENABLED_TEXT = 'enabled';
+    const DISABLED = '0';
+    const DISABLED_TEXT = 'disabled';
+
+    const ALL   = 'all';
+    const YES   = 'yes';
+    const NO    = 'no';
+    const COUNT = 'count';
+
+    /*
+    |--------------------------------------------------------------------------
+    | Auth guard
+    |--------------------------------------------------------------------------
+    */
+
+    const AUTH_Guard_MEMBERS = 'members';
+
+    const AUTH_GUARD_USERS = 'users';
+
+    const AUTH_GUARD_ADMINS = 'admins';
+
+    /*
+    |--------------------------------------------------------------------------
     | default form type
     |--------------------------------------------------------------------------
     */
