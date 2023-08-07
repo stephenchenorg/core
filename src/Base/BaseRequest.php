@@ -2,9 +2,11 @@
 
 namespace Stephenchen\Core\Base;
 
+use App\Models\Zone;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Stephenchen\Core\Traits\ResponseJsonTrait;
 
@@ -17,7 +19,7 @@ abstract class BaseRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // Use middleware instead
         return TRUE;
@@ -28,7 +30,7 @@ abstract class BaseRequest extends FormRequest
      *
      * @return array
      */
-    abstract public function rules();
+    abstract public function rules(): array;
 
     /**
      * Return custom error format for backward compatible
@@ -40,8 +42,8 @@ abstract class BaseRequest extends FormRequest
     {
 
         // @TODO: 先暫時這樣 不判斷是不是從 api 來的
-        $errors   = ( new ValidationException($validator) )->errors();
-        $message  = collect($errors)->flatten()->first();
+        $errors = (new ValidationException($validator))->errors();
+        $message = collect($errors)->flatten()->first();
         $response = self::jsonFail($message, 422);
 
         throw new HttpResponseException(
@@ -49,8 +51,8 @@ abstract class BaseRequest extends FormRequest
         );
 
         if ($this->wantsJson()) {
-            $errors   = ( new ValidationException($validator) )->errors();
-            $message  = collect($errors)->flatten()->first();
+            $errors = (new ValidationException($validator))->errors();
+            $message = collect($errors)->flatten()->first();
             $response = self::jsonFail($message, 422);
 
             throw new HttpResponseException(
