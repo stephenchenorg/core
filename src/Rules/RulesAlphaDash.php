@@ -58,21 +58,21 @@ final class RulesAlphaDash implements Rule
     /**
      * min string length
      *
-     * @var string
+     * @var string|null
      */
     private ?string $min = NULL;
 
     /**
      * max string length
      *
-     * @var string
+     * @var string|null
      */
     private ?string $max = NULL;
 
     /**
      * Error message prefix
      *
-     * @var string
+     * @var string|null
      */
     private ?string $errorMessagePrefix = NULL;
 
@@ -128,23 +128,23 @@ final class RulesAlphaDash implements Rule
         ];
 
         if ($this->isValidatePlusSign()) {
-            array_push($rules, ' + ');
+            $rules[] = ' + ';
         }
 
         if ($this->isValidateDash()) {
-            array_push($rules, ' - ');
+            $rules[] = ' - ';
         }
 
         if ($this->isValidateAtSign()) {
-            array_push($rules, '@');
+            $rules[] = '@';
         }
 
         if ($this->isValidateUnderline()) {
-            array_push($rules, '_');
+            $rules[] = '_';
         }
 
         if ($this->isValidateDotSign()) {
-            array_push($rules, '.');
+            $rules[] = '.';
         }
 
         $isContains = Str::contains($value, $rules);
@@ -308,7 +308,7 @@ final class RulesAlphaDash implements Rule
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getMin(): ?string
     {
@@ -324,7 +324,7 @@ final class RulesAlphaDash implements Rule
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getMax(): ?string
     {
@@ -365,57 +365,57 @@ final class RulesAlphaDash implements Rule
      * @throws HttpResponseException
      * @throws FrontendException
      */
-    public function message()
+    public function message(): string
     {
         $message = trans('core::message.only_allow');
 
         // sign ( - ) 中線
         if (!$this->isValidateDash()) {
             $string  = trans('core::message.dash');
-            $message = "{$message} {$string}";
+            $message = "$message $string";
         }
 
         // sign ( _ ) 下底線
         if (!$this->isValidateUnderline()) {
             $string  = trans('core::message.underline');
-            $message = "{$message} {$string}";
+            $message = "$message $string";
         }
 
         // sign ( @ )
         if (!$this->isValidateAtSign()) {
             $string  = trans('core::message.sign_at');
-            $message = "{$message} {$string}";
+            $message = "$message $string";
         }
 
         // sign ( + )
         if (!$this->isValidatePlusSign()) {
             $string  = trans('core::message.sign_plus');
-            $message = "{$message} {$string}";
+            $message = "$message $string";
         }
 
         // sign ( . )
         if ($this->isValidateDotSign()) {
             $string  = trans('core::message.sign_dot');
-            $message = "{$message} {$string}";
+            $message = "$message $string";
         }
 
         if ($this->isValidateAlphaAtBeginning()) {
             $string  = trans('core::message.alpha_at_beginnind');
-            $message = "{$message} {$string}";
+            $message = "$message $string";
         }
 
         if ($this->getMax() && $this->getMin()) {
             $min     = $this->getMin();
             $max     = $this->getMax();
             $data    = [
-                'key1' => $min,
+                'key' => $min,
                 'key2' => $max,
             ];
             $string  = trans('core::message.validation.length', $data);
-            $message = "{$message} {$string}";
+            $message = "$message $string";
         }
 
-        $message = "{$this->errorMessagePrefix} {$message}";
+        $message = "$this->errorMessagePrefix $message";
 
         if ($this->isThrowable()) {
             throw new FrontendException(4465, '您的密碼不符合以下條件限制');

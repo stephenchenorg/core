@@ -16,9 +16,13 @@ final class CacheFlush
      * @param null $tags
      * @return mixed
      */
-    public function handle($request, Closure $next, $tags = NULL)
+    public function handle(Request $request, Closure $next, $tags = NULL): mixed
     {
-        CacheService::flush($tags);
+        // Flush cache is method is not cacheable
+        if (!$request->isMethodCacheable()) {
+            CacheService::flush($tags);
+        }
+
         return $next($request);
     }
 }

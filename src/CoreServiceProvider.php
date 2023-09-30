@@ -3,13 +3,16 @@
 namespace Stephenchen\Core;
 
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Stephenchen\Core\Commands\InitialCommandPart1;
-use Stephenchen\Core\Http\Backend\Member\MemberRepository;
 use Stephenchen\Core\Http\Middleware\AuthenticateAssignGuard;
 use Stephenchen\Core\Http\Middleware\AuthenticateJwtVerify;
 use Stephenchen\Core\Http\Middleware\SetLanguage;
+use Stephenchen\Core\Providers\CustomFakerProvider;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -43,6 +46,8 @@ class CoreServiceProvider extends ServiceProvider
         $router->aliasMiddleware('auth.assign.guard', AuthenticateAssignGuard::class);
 
         $this->registerModelBindings();
+
+        $this->registerMacros();
 
         $this->loadTranslations();
 
@@ -83,6 +88,21 @@ class CoreServiceProvider extends ServiceProvider
         ], 'assets');*/
     }
 
+    private function registerMacros(): void
+    {
+        Collection::make(glob(__DIR__ . '/BuilderMacros/*.php'))
+            ->map(function ($path) {
+                return pathinfo($path, PATHINFO_FILENAME);
+            })
+            ->reject(function ($macro) {
+                return Builder::hasGlobalMacro($macro);
+            })
+            ->each(function ($macro) {
+                $macroClass = 'Stephenchen\\Core\\BuilderMacros\\' . $macro;
+                Builder::macro(Str::camel($macro), app($macroClass)());
+            });
+    }
+
     private function registerMacroHelpers()
     {
 
@@ -106,6 +126,12 @@ class CoreServiceProvider extends ServiceProvider
         // Register the main class to use with the facade
         $this->app->singleton('core', function () {
             return new Core;
+        });
+
+        // Add custom faker provider
+        $this->app->extend('Faker\Generator', function ($faker) {
+            $faker->addProvider(new CustomFakerProvider($faker));
+            return $faker;
         });
     }
 }

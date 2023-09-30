@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Stephenchen\Core\Utilities\Log;
 use Stephenchen\Core\Utilities\Utility;
 
-final class AuthenticationService
+class AuthenticationService
 {
     /**
      * @param        $people
@@ -37,12 +37,10 @@ final class AuthenticationService
     {
         $authorization      = new JwtObject($token);
         $expiredAtTimestamp = $authorization->getExpiredAt();
-        $date               = Carbon::createFromTimestamp($expiredAtTimestamp)->toDateTimeString();;
-
         return [
             'token' => $authorization->getToken(),
             'token_type' => 'Bearer',
-            'expired_at' => $date,
+            'expired_at' => $expiredAtTimestamp,
             'refresh_expired_at' => $authorization->getRefreshExpiredAt(),
         ];
     }
@@ -52,10 +50,10 @@ final class AuthenticationService
      *
      * @param $guard
      * @param array $credentials
-     * @return mixed
+     * @return array|null
      * @throws Exception
      */
-    public function attempt($guard, array $credentials)
+    public function attempt($guard, array $credentials): ?array
     {
         if (!$result = Auth::guard($guard)->attempt($credentials)) {
             return NULL;
@@ -69,10 +67,10 @@ final class AuthenticationService
      *
      * @param $guard
      * @param $user
-     * @return mixed
+     * @return array|null
      * @throws Exception
      */
-    public function loginBy($guard, $user)
+    public function loginBy($guard, $user): ?array
     {
         $auth = Auth::guard($guard);
 
@@ -125,7 +123,7 @@ final class AuthenticationService
      * Logout user
      *
      * @param string $guard
-     * @return bool|null
+     * @return bool
      * @throws Exception
      */
     public function logout(string $guard): bool
@@ -134,7 +132,7 @@ final class AuthenticationService
             Auth::guard($guard)->logout();
             return TRUE;
         } catch (Exception $e) {
-            Log::error('Logout fail', $e);
+            Log::error('LOGOUT FAIL', $e);
             Utility::maybeDD(__CLASS__, $e);
             throw $e;
         }

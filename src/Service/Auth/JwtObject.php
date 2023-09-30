@@ -34,17 +34,16 @@ final class JwtObject
      * @return string
      * @throws Exception
      */
-    public function getExpiredAt()
+    public function getExpiredAt(): string
     {
         $exp = $this->getPayload()->get('exp');
         return Carbon::createFromTimestamp($exp)->toDateTimeString();
     }
 
     /**
-     * @return mixed
      * @throws Exception
      */
-    public function getPayload()
+    public function getPayload(): object
     {
         if (!$this->payload) {
             $this->payload = JWTAuth::setToken($this->getToken())->getPayload();
@@ -58,7 +57,7 @@ final class JwtObject
      *
      * @return JwtObject
      */
-    public function setPayload($payload): self
+    public function setPayload(object $payload): self
     {
         $this->payload = $payload;
         return $this;
@@ -88,7 +87,7 @@ final class JwtObject
      * @return string
      * @throws Exception
      */
-    public function getRefreshExpiredAt()
+    public function getRefreshExpiredAt(): string
     {
         $iat = $this->getPayload()->get('iat');
         return Carbon::createFromTimestamp($iat)

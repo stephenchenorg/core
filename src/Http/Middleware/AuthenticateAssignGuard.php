@@ -18,7 +18,7 @@ final class AuthenticateAssignGuard
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = NULL)
+    public function handle(Request $request, Closure $next, $guard = NULL): mixed
     {
         if (isset($guard) === TRUE && $guard === '') {
             abort(403);

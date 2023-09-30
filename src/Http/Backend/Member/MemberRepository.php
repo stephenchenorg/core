@@ -31,11 +31,11 @@ class MemberRepository extends BaseRepository
 
     public function firstWhereAccountOrEmail(?string $email, ?string $account)
     {
-        $this->model = $this->model
+        return $this
+            ->newModelQuery()
             ->where('email', $email)
-            ->orWhere('account', $account);
-
-        return $this;
+            ->orWhere('account', $account)
+            ->first();
     }
 
     /**

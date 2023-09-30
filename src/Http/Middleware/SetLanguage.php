@@ -15,9 +15,10 @@ final class SetLanguage
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         $language = $request->header('Content-Language');
+
         app()->setLocale($language);
 
         return $next($request);

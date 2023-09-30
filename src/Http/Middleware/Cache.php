@@ -5,50 +5,35 @@ namespace Stephenchen\Core\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
+use Stephenchen\Core\Constant\Constant;
 use Stephenchen\Core\Service\Cache\CacheService;
 
+/**
+ * Implement Http status 304 and redis
+ * TIP: 如不懂此機制，可參考 https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching
+ */
 final class Cache
 {
-    /**
-     * Cache tags
-     * https://laravel.com/docs/8.x/cache#storing-tagged-cache-items
-     */
-    CONST TAGS_BANNER = "TAGS_BANNER";
-    CONST TAGS_PRODUCT = "TAGS_PRODUCT";
-    CONST TAGS_CATEGORY = "TAGS_CATEGORY";
-    CONST TAGS_BOOTSTRAP = "TAGS_BOOTSTRAP";
-    CONST TAGS_CONTACT = "TAGS_CONTACT";
-    CONST TAGS_LANGUAGE = "TAGS_LANGUAGE";
-    CONST TAGS_BASIC = "TAGS_BASIC";
-    CONST TAGS_OTHER = "TAGS_OTHER";
-    CONST TAGS_TAGS = "TAGS_TAGS";
-    CONST TAGS_SOCIALITES = 'TAGS_SOCIALITES';
-
     /**
      * Handle an incoming request.
      *
      * @param Request $request
      * @param Closure $next
-     * @param mixed $tags
+     *
+     * @param array|string|null $tags
+     *
      * @return mixed
      */
-    public function handle($request, Closure $next, $tags = self::TAGS_OTHER)
+    public function handle(Request $request, Closure $next, array|string|null $tags = null): mixed
     {
-        // 測試環境直接通過
-        // 假如在 Is-Debug 輸入當前 env 裡的 MIX_APP_KEY 的 key 的話也通過
-        // 不論正式或者測試，此舉為了方便測試 請通知前端人員盡量不要這樣用
-        $sameKey = $request->header('Is-Debug') == env('MIX_APP_KEY');
-        if (!env('APP_DEBUG') || $sameKey) {
-            return $next($request);
-        }
-
         /*
              不是 GET 跟 HEAD 都略過
              來源根據 HTTP 1.1 RFC 2616 S. 9.1
              https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.1
          */
-        if (!$request->isMethodCacheable()) {
+        if (!$request->isMethodCacheable() || App::environment(Constant::ENVIRONMENT_STAGING)) {
             return $next($request);
         }
 
@@ -91,23 +76,23 @@ final class Cache
         // 如果 match 到任何一個 key 就回傳
         foreach ($eTags as $eTag) {
             if (CacheService::has($tags, $eTag)) {
-                $options[ 'etag' ] = $eTag;
-                return ( new Response() )
+                $options['etag'] = $eTag;
+                return (new Response())
                     ->setStatusCode(304)
                     ->setCache($options);
             }
         }
 
-        // Get response & content
+        // If not match, get response & content
         $response = $next($request);
-        $content  = $response->getContent();
+        $content = $response->getContent();
 
         // 產生 eTag 並且前後加上 雙引號 "
         $eTag = md5($content);
         $eTag = Str::of($eTag)->start('"')->finish('"');
 
         // Set etag
-        $options[ 'etag' ] = $eTag;
+        $options['etag'] = $eTag;
         $response->setCache($options);
 
         // Set public
@@ -124,9 +109,10 @@ final class Cache
 
     /**
      * @param $etag
+     *
      * @return string|string[]
      */
-    private function stripWeakTags($etag)
+    private function stripWeakTags($etag): array|string
     {
         return str_replace('W/', '', $etag);
     }
