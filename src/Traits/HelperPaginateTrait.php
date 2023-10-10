@@ -47,12 +47,12 @@ trait HelperPaginateTrait
      *
      * @return int
      */
-    protected function getPerPage(string $key = 'per_page'): int
+    protected function getPerPage(string $key = 'per_page', int $perPage = 20): int
     {
         try {
-            return request()->get($key) ?? 20;
+            return request()->get($key) ?? $perPage;
         } catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
-            return 20;
+            return $perPage;
         }
     }
 
