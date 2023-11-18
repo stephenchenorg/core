@@ -101,11 +101,11 @@ class AuthenticationService
      * Get Auth user|admin
      *
      * @param string $guard
-     * @return Authenticatable
+     * @return Authenticatable|null
      */
-    public function getAuthUser(string $guard)
+    public function getAuthUser(string $guard): ?Authenticatable
     {
-        return Auth::guard($guard)->user();
+        return Auth::guard($guard)->user() ?? NULL;
     }
 
     /**
