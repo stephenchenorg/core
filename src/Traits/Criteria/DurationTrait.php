@@ -3,7 +3,13 @@
 namespace Stephenchen\Core\Traits\Criteria;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Schema;
 
+/**
+ * Trait DurationTrait
+ * @package Stephenchen\Core\Traits\Criteria
+ * @method Builder whereDuration(Builder $query)
+ */
 trait DurationTrait
 {
     /**
@@ -14,6 +20,13 @@ trait DurationTrait
      */
     protected function scopeWhereDuration(Builder $query): Builder
     {
+        $table = $query->getModel()
+            ->getTable();
+
+        if (!Schema::hasColumn($table, 'started_at') && !Schema::hasColumn($table, 'ended_at')) {
+            return $query;
+        }
+
         return $query
             ->where(function ($query) {
                 $query->whereDate('started_at', '<=', now())
