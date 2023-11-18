@@ -44,7 +44,7 @@ trait HelperPaginateTrait
      * Get Per Page number, return `20` if NonExist
      *
      * @param string $key
-     *
+     * @param int $perPage
      * @return int
      */
     protected function getPerPage(string $key = 'per_page', int $perPage = 20): int
