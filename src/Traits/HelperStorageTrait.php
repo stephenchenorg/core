@@ -7,18 +7,20 @@ use Stephenchen\Core\Utilities\Utility;
 
 trait HelperStorageTrait
 {
-    public function getStorageUrl($path): ?array
+    public function getStorageUrl(?string $path, ?bool $useFake): ?array
     {
-        if (Utility::isStringEmptyOrNull($path)){
+        if (Utility::isStringEmptyOrNull($path)) {
             return null;
         }
 
-        $suffix = Storage::url($path);
-        $schemeAndHttpHost = request()->getSchemeAndHttpHost();
+        $useFake = $useFake ?? config('stephenchen-core-config.use_fake_image') ?? false;
+        $schemeAndHttpHost = $useFake ? 'https://fakeimg.pl' : request()->getSchemeAndHttpHost();
+        $suffix = $useFake ? $path : Storage::url($path);
+
         return [
             'path' => $suffix,
             'prefix' => $schemeAndHttpHost,
-            'full_path' => $schemeAndHttpHost . $suffix
+            'full_path' => Utility::combineURL($schemeAndHttpHost, $suffix)
         ];
     }
 }
