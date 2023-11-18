@@ -39,21 +39,21 @@ trait RequestPageTrait
         return [
             'page.numeric' => __('core::message.validation.numeric', $page),
             'page.min'     => __('core::message.validation.min', [
-                'key' => $page,
+                'key' => __('core::message.page'),
                 'key2' => '1',
             ]),
             'page.max'     => __('core::message.validation.max', [
-                'key' => 'page',
+                'key' => __('core::message.page'),
                 'key2' => '300',
             ]),
 
             'per_page.numeric' => __('core::message.validation.numeric', $perPage),
             'per_page.min'     => __('core::message.validation.min', [
-                'key' => 'per_page',
+                'key' => __('core::message.per_page'),
                 'key2' => '1',
             ]),
             'per_page.max'     => __('core::message.validation.max', [
-                'key' => 'per_page',
+                'key' => __('core::message.per_page'),
                 'key2' => '2147483647',
             ]),
         ];
