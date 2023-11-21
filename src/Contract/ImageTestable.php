@@ -5,12 +5,9 @@ namespace Stephenchen\Core\Contract;
 use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Stephenchen\Core\CreatesApplication;
 
 abstract class ImageTestable extends TestCase
 {
-    use CreatesApplication;
-
     /**
      * @return string[]
      */
