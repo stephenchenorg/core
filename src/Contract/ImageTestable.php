@@ -48,7 +48,7 @@ abstract class ImageTestable extends TestCase
      * @param array $data
      * @return array
      */
-    protected function removeKeys(array $data): array
+    protected function removeKeysBeforeAssertDatabaseHas(array $data): array
     {
         // Remove file-related keys from data before asserting database
         return array_diff_key($data, array_flip($this->getImageKeys()));
