@@ -211,7 +211,7 @@ final class Utility
             Constant::ENVIRONMENT_STAGING,
         ];
 
-        if (!App::environment($environments) && !\app()->runningInConsole() && !\app()->runningUnitTests()) {
+        if (!App::environment($environments) || !\app()->runningInConsole() || !\app()->runningUnitTests()) {
             dd($title, $exception->getMessage(), $exception->getTraceAsString());
         }
 
