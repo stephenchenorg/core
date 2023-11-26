@@ -76,7 +76,7 @@ return [
     'validation.mimes' => ':key 只支援這幾種格式 :mimes',
     'validation.max' => ':key 只支援最大是 :max',
     'validation.min' => ':key 只支援最小是 :key2',
-    'validation.in' => '不支援此 :key 格式',
+    'validation.in' => '只支援 :key ',
     'validation.different' => ':key 跟 :key2 不能一樣',
     'validation.length' => '長度限制 :key 到 :key2',
     'validation.lte' => ':key 不能超過 :key2',
