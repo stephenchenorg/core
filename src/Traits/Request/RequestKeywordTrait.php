@@ -12,7 +12,7 @@ trait RequestKeywordTrait
      *
      * @return array
      */
-    public function getSortRules(): array
+    public function getKeywordRules(): array
     {
         return [
             'keyword' => [
@@ -27,7 +27,7 @@ trait RequestKeywordTrait
      *
      * @return array
      */
-    public function getSortMessages(): array
+    public function getKeywordMessages(): array
     {
         return [
             'keyword.max' => __('core::message.validation.max', [
