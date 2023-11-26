@@ -197,7 +197,7 @@ final class Utility
     }
 
     /**
-     * Dump and die error log while app env is not production
+     * Dump and die error log while app env is not production and running in console
      *
      * @param string $title
      * @param Exception $exception
