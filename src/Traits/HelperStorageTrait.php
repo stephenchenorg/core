@@ -14,16 +14,19 @@ trait HelperStorageTrait
         }
 
         $prefix = config('stephenchen-core-config.image_prefix');
-        $prefix = Utility::isStringEmptyOrNull($prefix) ? request()->getSchemeAndHttpHost() : $prefix;
-
-        $useFake = config('stephenchen-core-config.use_fake_image') ?? false;
-        $schemeAndHttpHost = $useFake ? 'https://fakeimg.pl' : $prefix;
-        $suffix = $useFake ? $path : Storage::url($path);
+        $useFakeImage = config('stephenchen-core-config.use_fake_image') ?? true;
+        if (Utility::isStringEmptyOrNull($prefix) || $useFakeImage) {
+            return [
+                'path' => $path,
+                'prefix' => 'https://fakeimg.pl',
+                'full_path' => Utility::combineURL('https://fakeimg.pl', $path)
+            ];
+        }
 
         return [
-            'path' => $suffix,
-            'prefix' => $schemeAndHttpHost,
-            'full_path' => Utility::combineURL($schemeAndHttpHost, $suffix)
+            'path' => $path,
+            'prefix' => $prefix,
+            'full_path' => Utility::combineURL($prefix, $path)
         ];
     }
 }
