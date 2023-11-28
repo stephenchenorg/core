@@ -44,7 +44,7 @@ abstract class BaseRequest extends FormRequest
         // @TODO: 先暫時這樣 不判斷是不是從 api 來的
         $errors = (new ValidationException($validator))->errors();
         $message = collect($errors)->flatten()->first();
-        $response = self::jsonFail($message, 422);
+        $response = self::jsonFail($message, 422, 422);
 
         throw new HttpResponseException(
             $response,
