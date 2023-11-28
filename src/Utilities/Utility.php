@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Stephenchen\Core\Constant\Constant;
 
 final class Utility
@@ -505,6 +506,25 @@ final class Utility
         // Returns the floating point result of dividing the num1 by the num2.
         // If the num2 is zero, then one of INF, -INF, or NAN will be returned.
         return fdiv((floatval($left)), floatval($right));
+    }
+
+    /**
+     * Extract keyword from class name
+     *
+     * Example: App\Http\Controllers\BannerController -> banner
+     * Example: App\Http\Controllers\MainController -> main
+     * Example: App\Http\Controllers\AboutController -> about
+     * Example: App\Http\Controllers\ArticleController -> article
+     *
+     * @param string $fullClassName
+     * @return string
+     */
+    static public function getKeywordFromClass(string $fullClassName): string
+    {
+        $parts = explode('\\', $fullClassName);
+        $classNameWithController = end($parts);
+        $keyword = Str::replace('Controller', '', $classNameWithController);
+        return Str::lower($keyword);
     }
 
 }
