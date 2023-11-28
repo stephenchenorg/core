@@ -11,6 +11,8 @@ return [
     // Use fake image instead of real image
     'use_fake_image' => false,
 
+    'image_prefix' => '',
+
     // For those ip ignore signature
     'white_lists' => [
 
