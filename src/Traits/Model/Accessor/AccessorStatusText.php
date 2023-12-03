@@ -13,8 +13,8 @@ trait AccessorStatusText
     public function getStatusTextAttribute(): string
     {
         return match ((integer)$this->status) {
-            0 => '停用 ❌',
-            1 => '啟用 ✅',
+            0 => trans('core::message.disable_status'),
+            1 => trans('core::message.enabled_status'),
             default => '未知',
         };
     }

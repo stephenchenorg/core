@@ -12,8 +12,8 @@ trait AccessorIsHottestText
     public function getIsHottestTextAttribute(): string
     {
         return match ((integer)$this->is_hottest) {
-            0 => '❌',
-            1 => '✅',
+            0 => trans('core::message.true'),
+            1 => trans('core::message.false'),
             default => '未知',
         };
     }

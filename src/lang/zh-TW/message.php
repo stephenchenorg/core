@@ -48,6 +48,10 @@ return [
     'resend_fail' => '信件寄送失敗，請重新寄送',
     'copy' => '複製成功',
     'copy_fail' => '複製失敗',
+    'disable_status' => '停用',
+    'enabled_status' => '啟用',
+    'true' => '是',
+    'false' => '否',
 
     // Miscellaneous
     'name' => '名稱',

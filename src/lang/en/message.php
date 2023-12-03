@@ -45,6 +45,10 @@ return [
     'resend_fail' => 'resend email fail, please try again',
     'copy' => 'copy success',
     'copy_fail' => 'copy fail',
+    'disable_status' => 'disable',
+    'enabled_status' => 'enabled',
+    'true' => 'true',
+    'false' => 'false',
 
     // Mailgun event
     'mailgun_event_accepted' => 'accepted',

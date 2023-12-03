@@ -12,8 +12,8 @@ trait AccessorIsNewestText
     public function getIsNewestTextAttribute(): string
     {
         return match ((integer)$this->is_newest) {
-            0 => '❌',
-            1 => '✅',
+            0 => trans('core::message.true'),
+            1 => trans('core::message.false'),
             default => '未知',
         };
     }

@@ -12,8 +12,8 @@ trait AccessorIsHomeEnabledText
     public function getIsHomeEnabledTextAttribute(): string
     {
         return match ((integer)$this->is_home_enabled) {
-            0 => '❌',
-            1 => '✅',
+            0 => trans('core::message.true'),
+            1 => trans('core::message.false'),
             default => '未知',
         };
     }
