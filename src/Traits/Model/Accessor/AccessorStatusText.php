@@ -2,8 +2,6 @@
 
 namespace Stephenchen\Core\Traits\Model\Accessor;
 
-use DateTimeInterface;
-
 trait AccessorStatusText
 {
 
