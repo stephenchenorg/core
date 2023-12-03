@@ -13,7 +13,7 @@ trait DatabaseAlterTableCommentTrait
      * @param string $comment
      * @return void
      */
-    public function alterTableComments(string $table, string $comment)
+    public function alterTableComments(string $table, string $comment): void
     {
         $table = env('DB_PREFIX') . $table;
         $query = "ALTER TABLE $table comment '$comment'";

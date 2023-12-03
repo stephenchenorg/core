@@ -16,7 +16,7 @@ trait MigrateEnabledTrait
      *
      * @return void
      */
-    public function migrateEnabledColumns(Blueprint $table)
+    public function migrateEnabledColumns(Blueprint $table): void
     {
         $table->boolean('is_enabled')->default(1)->index()->comment('是否啟用');
     }
