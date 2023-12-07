@@ -30,7 +30,7 @@ trait HelperSortTrait
     private function getSortOrderMethods(): string
     {
         try {
-            return request()->get('sort_order_methods') ?? Constant::DATABASE_DESC;
+            return request()->get('sort_method') ?? Constant::DATABASE_DESC;
         } catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
             return Constant::DATABASE_DESC;
         }
