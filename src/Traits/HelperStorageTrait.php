@@ -13,9 +13,8 @@ trait HelperStorageTrait
             return null;
         }
 
-        $prefix = config('stephenchen-core-config.image_prefix');
         $useFakeImage = config('stephenchen-core-config.use_fake_image') ?? true;
-        if (Utility::isStringEmptyOrNull($prefix) || $useFakeImage) {
+        if ($useFakeImage) {
             return [
                 'path' => $path,
                 'prefix' => 'https://fakeimg.pl',
@@ -23,10 +22,11 @@ trait HelperStorageTrait
             ];
         }
 
+        $filesystem = Storage::disk('s3');
         return [
             'path' => $path,
-            'prefix' => $prefix,
-            'full_path' => Utility::combineURL($prefix, $path)
+            'prefix' => $filesystem->getConfig()['url'],
+            'full_path' => Storage::disk('s3')->url($path)
         ];
     }
 }
