@@ -96,10 +96,10 @@ class CustomLengthAwarePaginator extends AbstractPaginator implements Arrayable,
     {
         return [
             'total' => $this->total(),
-            'data' => $this->items->toArray(),
             'page' => $this->currentPage(),
             'per_page' => $this->perPage(),
             'last_page' => $this->lastPage(),
+            'data' => $this->items->toArray(),
 //            'from' => $this->firstItem(),
 //            'to' => $this->lastItem(),
         ];
