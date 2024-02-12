@@ -6,6 +6,7 @@ use Closure;
 use Exception;
 use Illuminate\Http\Request;
 use Stephenchen\Core\Traits\ResponseJsonTrait;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -25,15 +26,18 @@ class AuthenticateJwtVerify extends BaseMiddleware
     public function handle(Request $request, Closure $next)
     {
         try {
-            JWTAuth::parseToken()->authenticate();
-        } catch (Exception $e) {
-            if ($e instanceof TokenInvalidException) {
+            $isPassed = JWTAuth::parseToken()->authenticate();
+            if (!$isPassed) {
                 return $this->jsonFail(__('core::message.unauthorized'), 401, 401);
             }
-            if ($e instanceof TokenExpiredException) {
+        } catch (Exception $exception) {
+            if ($exception instanceof TokenInvalidException) {
                 return $this->jsonFail(__('core::message.unauthorized'), 401, 401);
             }
-            return $this->jsonFail($e->getMessage(), 401, 401);
+            if ($exception instanceof TokenExpiredException) {
+                return $this->jsonFail(__('core::message.unauthorized'), 401, 401);
+            }
+            return $this->jsonFail($exception->getMessage(), 401, 401);
         }
         return $next($request);
     }
