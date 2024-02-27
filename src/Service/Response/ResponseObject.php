@@ -11,13 +11,13 @@ final class ResponseObject
      * @param       $message
      * @param array $result
      * @param array $custom
-     *
+     * @param $statusCode
      * @return Response
      */
-    public static function success($message, $result = [], $custom = [])
+    public static function success($message, $result = [], $custom = [], $statusCode)
     {
         $output = [
-            'code' => 200,
+            'code' => $statusCode,
             'msg'  => $message,
             'data' => $result,
         ];

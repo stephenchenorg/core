@@ -15,9 +15,9 @@ trait ResponseJsonTrait
      * @param array $custom
      * @return Response
      */
-    public static function jsonSuccess($message, $results = [], $custom = [])
+    public static function jsonSuccess($message, $results = [], $custom = [], $statusCode = 200)
     {
-        return ResponseObject::success($message, $results, $custom);
+        return ResponseObject::success($message, $results, $custom, $statusCode);
     }
 
     /**
