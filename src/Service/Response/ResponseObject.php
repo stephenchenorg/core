@@ -8,22 +8,25 @@ final class ResponseObject
 {
     /**
      *
-     * @param       $message
+     * @param string $message
      * @param array $result
      * @param array $custom
-     * @param $statusCode
+     * @param int $statusCode
      * @return Response
      */
-    public static function success($message, $result = [], $custom = [], $statusCode)
+    public static function success(string $message = '',
+                                   array  $result = [],
+                                   array  $custom = [],
+                                   int    $statusCode = 200)
     {
         $output = [
-            'code' => $statusCode,
-            'msg'  => $message,
+            'code' => 200,
+            'msg' => $message,
             'data' => $result,
         ];
 
         $output = array_merge($output, $custom);
-        return response($output, 200);
+        return response($output, $statusCode);
     }
 
     /**
