@@ -9,13 +9,13 @@ final class ResponseObject
     /**
      *
      * @param string $message
-     * @param array $result
+     * @param mixed $result
      * @param array $custom
      * @param int $statusCode
      * @return Response
      */
     public static function success(string $message = '',
-                                   array  $result = [],
+                                   mixed  $result = [],
                                    array  $custom = [],
                                    int    $statusCode = 200)
     {
