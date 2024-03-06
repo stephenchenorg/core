@@ -27,10 +27,7 @@ class AuthenticateJwtVerify extends BaseMiddleware
     public function handle(Request $request, Closure $next)
     {
         try {
-            $isPassed = JWTAuth::parseToken()->authenticate();
-            if (!$isPassed && !App::runningUnitTests()) {
-                return $this->jsonFail(__('core::message.unauthorized'), 401, 401);
-            }
+            JWTAuth::parseToken()->checkOrFail();
         } catch (Exception $exception) {
             if ($exception instanceof TokenInvalidException) {
                 return $this->jsonFail(__('core::message.unauthorized'), 401, 401);
