@@ -14,16 +14,15 @@ final class Log
      * @param string $title
      * @param mixed $messages
      */
-    public static function emergency(string $title, $messages): void
+    public static function emergency(string $title, mixed $messages): void
     {
         if (App::environment(Constant::ENVIRONMENT_LOCAL)) return;
 
         $messages = Utility::toString($messages);
 
         // @TODO: Line notify or something else
-
-        LaravelLog::emergency("========= {$title}  ========= \n");
-        LaravelLog::emergency("{$messages} \n");
+        LaravelLog::channel('emergency')->emergency("========= $title ========= \n");
+        LaravelLog::channel('emergency')->emergency("$messages \n");
     }
 
     /**
@@ -32,16 +31,15 @@ final class Log
      * @param string $title
      * @param mixed $messages
      */
-    public static function alert(string $title, $messages): void
+    public static function alert(string $title, mixed $messages): void
     {
         if (App::environment(Constant::ENVIRONMENT_LOCAL)) return;
 
         $messages = Utility::toString($messages);
 
         // @TODO: Line notify or something else
-
-        LaravelLog::alert("========= {$title}  ========= \n");
-        LaravelLog::alert("{$messages} \n");
+        LaravelLog::channel('alert')->alert("========= $title ========= \n");
+        LaravelLog::channel('alert')->alert("$messages \n");
     }
 
     /**
@@ -50,16 +48,15 @@ final class Log
      * @param string $title
      * @param mixed $messages
      */
-    public static function critical(string $title, $messages): void
+    public static function critical(string $title, mixed $messages): void
     {
         if (App::environment(Constant::ENVIRONMENT_LOCAL)) return;
 
         $messages = Utility::toString($messages);
 
         // @TODO: Line notify or something else
-
-        LaravelLog::critical("========= {$title}  ========= \n");
-        LaravelLog::critical("{$messages} \n");
+        LaravelLog::driver('critical')->critical("========= $title ========= \n");
+        LaravelLog::driver('critical')->critical("$messages \n");
     }
 
     /**
@@ -68,14 +65,15 @@ final class Log
      * @param string $title
      * @param mixed $messages
      */
-    public static function error(string $title, $messages): void
+    public static function error(string $title, mixed $messages): void
     {
         if (App::environment(Constant::ENVIRONMENT_LOCAL)) return;
 
         $messages = Utility::toString($messages);
 
-        LaravelLog::error("========= {$title}  ========= \n");
-        LaravelLog::error("{$messages} \n");
+        // @TODO: Line notify or something else
+        LaravelLog::channel('error')->error("========= $title ========= \n");
+        LaravelLog::channel('error')->error("$messages \n");
     }
 
     /**
@@ -84,14 +82,15 @@ final class Log
      * @param string $title
      * @param mixed $messages
      */
-    public static function warning(string $title, $messages): void
+    public static function warning(string $title, mixed $messages): void
     {
         if (App::environment(Constant::ENVIRONMENT_LOCAL)) return;
 
         $messages = Utility::toString($messages);
 
-        LaravelLog::warning("========= {$title}  ========= \n");
-        LaravelLog::warning("{$messages} \n");
+        // @TODO: Line notify or something else
+        LaravelLog::channel('warning')->warning("========= $title ========= \n");
+        LaravelLog::channel('warning')->warning("$messages \n");
     }
 
     /**
@@ -100,14 +99,15 @@ final class Log
      * @param string $title
      * @param mixed $messages
      */
-    public static function notice(string $title, $messages): void
+    public static function notice(string $title, mixed $messages): void
     {
         if (App::environment(Constant::ENVIRONMENT_LOCAL)) return;
 
         $messages = Utility::toString($messages);
 
-        LaravelLog::notice("========= {$title}  ========= \n");
-        LaravelLog::notice("{$messages} \n");
+        // @TODO: Line notify or something else
+        LaravelLog::channel('notice')->notice("========= $title ========= \n");
+        LaravelLog::channel('notice')->notice("$messages \n");
     }
 
     /**
@@ -116,14 +116,15 @@ final class Log
      * @param string $title
      * @param mixed $messages
      */
-    public static function info(string $title, $messages): void
+    public static function info(string $title, mixed $messages): void
     {
         if (App::environment(Constant::ENVIRONMENT_LOCAL)) return;
 
         $messages = Utility::toString($messages);
 
-        LaravelLog::info("========= {$title}  ========= \n");
-        LaravelLog::info("{$messages} \n");
+        // @TODO: Line notify or something else
+        LaravelLog::channel('info')->info("========= $title ========= \n");
+        LaravelLog::channel('info')->info("$messages \n");
     }
 
     /**
@@ -132,13 +133,13 @@ final class Log
      * @param string $title
      * @param mixed $messages
      */
-    public static function debug(string $title, $messages): void
+    public static function debug(string $title, mixed $messages): void
     {
         if (App::environment(Constant::ENVIRONMENT_LOCAL)) return;
 
         $messages = Utility::toString($messages);
 
-        LaravelLog::debug("========= {$title}  ========= \n");
-        LaravelLog::debug("{$messages} \n");
+        LaravelLog::channel('debug')->debug("========= $title ========= \n");
+        LaravelLog::channel('debug')->debug("$messages \n");
     }
 }
