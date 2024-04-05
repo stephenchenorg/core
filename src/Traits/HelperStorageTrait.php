@@ -9,10 +9,6 @@ trait HelperStorageTrait
 {
     public function getStorageUrl(?string $path): ?array
     {
-        if (Utility::isStringEmptyOrNull($path)) {
-            return null;
-        }
-
         $useFakeImage = config('stephenchen-core-config.use_fake_image') ?? true;
         if ($useFakeImage) {
             $domain = 'https://fakeimg.pl';
@@ -21,6 +17,10 @@ trait HelperStorageTrait
                 'prefix' => $domain,
                 'full_path' => Utility::combineURL($domain, '1600x1600'),
             ];
+        }
+
+        if (Utility::isStringEmptyOrNull($path)) {
+            return null;
         }
 
         $filesystem = Storage::disk('s3');
