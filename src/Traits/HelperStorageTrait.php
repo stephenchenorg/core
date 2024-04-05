@@ -15,10 +15,11 @@ trait HelperStorageTrait
 
         $useFakeImage = config('stephenchen-core-config.use_fake_image') ?? true;
         if ($useFakeImage) {
+            $domain = 'https://fakeimg.pl';
             return [
-                'path' => $path,
-                'prefix' => 'https://fakeimg.pl',
-                'full_path' => Utility::combineURL('https://fakeimg.pl', $path)
+                'path' => '1600x1600',
+                'prefix' => $domain,
+                'full_path' => Utility::combineURL($domain, '1600x1600'),
             ];
         }
 
@@ -26,7 +27,7 @@ trait HelperStorageTrait
         return [
             'path' => $path,
             'prefix' => $filesystem->getConfig()['url'],
-            'full_path' => Storage::disk('s3')->url($path)
+            'full_path' => Storage::disk('s3')->url($path),
         ];
     }
 }
